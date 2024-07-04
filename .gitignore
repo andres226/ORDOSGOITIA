@@ -159,4 +159,3 @@ depuración de cython/
 # se puede encontrar en https://github.com/github/gitignore/blob/main/Global/JetBrains.gitignore
 # y se puede agregar al gitignore global o fusionarlo en este archivo. Para una versión más nuclear
 # Opción (no recomendada) puedes descomentar lo siguiente para ignorar toda la carpeta de ideas.
-.idea/
