@@ -5,15 +5,21 @@ from sqlalchemy.orm import Session
 from sqlalchemy import text
 from typing import List
 import models, schemas
-
-
+from database import SessionLocal, engine, test_connection
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
+# Dependencia
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
 
 @app.post("/libros/", response_model=schemas.Libro)
 async def create_libro(libro: schemas.LibroCreate, db: Session = Depends(get_db)):
-    db_libro = models.Libro(autor=libro.autor,titulo=libro.titulo,estado=libro.estado)
+    db_libro = models.Libro(autor=libro.autor,titulo=libro.titulo, estado=libro.estado)
     db.add(db_libro)
     db.commit()
     db.refresh(db_libro)
@@ -26,11 +32,11 @@ async def read_libros(db: Session = Depends(get_db)):
 
 @app.post("/usuarios/", response_model=schemas.Usuario)
 async def create_usuario(usuario: schemas.UsuarioCreate, db: Session = Depends(get_db)):
-    db_libro = models.Usuario(nombre=usuarios.nombre, documento=usuarios.documento)
-    db.add(db_usuarios)
+    db_libro = models.Usuario(nombre=usuario.nombre, documento=usuario.documento)
+    db.add(db_libro)
     db.commit()
-    db.refresh(db_usuarios)
-    return db_usuarios
+    db.refresh(db_libro)
+    return db_libro
 
 @app.get("/usuarios/", response_model=List[schemas.Usuario])
 async def read_usuarios(db: Session = Depends(get_db)):

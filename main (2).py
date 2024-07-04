@@ -1,15 +1,6 @@
 
 from database import SessionLocal, engine, test_connection
-
-
-# Dependencia
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
+from api import *
 
 
 if __name__ == "__main__":
